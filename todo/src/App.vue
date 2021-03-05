@@ -1,28 +1,51 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <matchup-title :teamOne="team1" :teamTwo="team2" />
+    <game-status :teamOne="team1" :teamTwo="team2" />
+    <scorecard
+      :score="team1.score"
+      @score-increased="updateScore(team1, 1)"
+      @score-decreased="updateScore(team1, -1)"
+    />
+    <scorecard
+      :score="team2.score"
+      @score-increased="updateScore(team2, 1)"
+      @score-decreased="updateScore(team2, -1)"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import MatchupTitle from "./components/MatchupTitle";
+import Scorecard from "./components/Scorecard";
+import GameStatus from "./components/GameStatus";
 
 export default {
-  name: "App",
   components: {
-    HelloWorld
-  }
+    MatchupTitle,
+    Scorecard,
+    GameStatus,
+  },
+  data() {
+    return {
+      team1: {
+        name: "Team 1",
+        score: 0,
+      },
+      team2: {
+        name: "Team 2",
+        score: 0,
+      },
+    };
+  },
+  methods: {
+    updateScore(team, points) {
+      if (team.score + points >= 0) {
+        team.score += points;
+      }
+    },
+  },
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
